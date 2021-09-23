@@ -65,11 +65,13 @@ main{
     align-items: center;
     justify-content: center;
     margin: 30px;
-    width: 288px;
-    height: 384px;
+    width: 275px;
+    height: 325px;
     border: 3px solid #333333;
     border-radius: 25px;
+    font-weight: 800;
     font-size: 48px;
+    font-family:sans-serif;
 }
 
 #add-icon{
@@ -86,9 +88,29 @@ main{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+#add-form > input {
+    border-radius: 10px;
+    padding: 1px 5px;
+}
+
+#add-form > input:focus{
+    transform: scale(1.25);
+    transition: 0.25s ;
+}
+
+#add-form >input:focus-visible{
+    outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 #add-btn{
@@ -142,3 +164,32 @@ main{
     transform: scale(1.25);
 }
 
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.modal-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto;
+    width: 400px;
+    height: 200px;
+    color: #535553;
+    background-color: #ffdcdc;
+    border-radius: 25px;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.scale-leave{
+    transition: .15s linear;
+    transform: scale(0);
+}

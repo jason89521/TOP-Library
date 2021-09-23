@@ -16,15 +16,16 @@ removeBtnTemplate.className = "remove-btn";
 removeBtnTemplate.textContent = "Remove";
 
 const main = document.querySelector("main");
-main.addEventListener("click", handleMainClick);
+const addContainer = document.getElementById("add-container");
+const modal = document.querySelector(".modal");
+const modalContent = document.querySelector(".modal-content");
+main.addEventListener("click", HandleMainClick);
+modal.addEventListener("click", HandleModalClick);
+modalContent.addEventListener("transitionend", HandleModalContentTransitionend);
 
 // init
 const lib = new Library();
 lib.LoadBooks();
-if (lib.books.length === 0) {
-    lib.AddBook(new Book("test", "test", 12, false));
-}
-
 for (let i = 0; i < lib.books.length; i++) {
     DisplayBook(lib.books[i]);
 }
@@ -53,13 +54,13 @@ function DisplayBook(book) {
     container.appendChild(readStatus);
     container.appendChild(removeBtn);
 
-    main.appendChild(container);
+    main.insertBefore(container, addContainer.nextSibling);
 }
 
 /**
  * @param {event} event 
  */
-function handleMainClick(event) {
+function HandleMainClick(event) {
     const target = event.target;
     const id = parseInt(target.dataset.id);
     if (target.classList.contains("slider")) {
@@ -72,9 +73,40 @@ function handleMainClick(event) {
 
     if (target.id === "add-icon") {
         target.style.display = "none";
-        target.nextElementSibling.style.display = "flex";
+        target.nextElementSibling.style.display = "";
     }
     else if(target.id === "add-btn") {
         event.preventDefault();
+        const form = document.getElementById("add-form");
+        for(let i = 0; i < 3; i++) {
+            if(form[i].value === ""){
+                DisplayAlertPanel();
+                return;
+            }
+        }
+
+        const title = form[0].value;
+        const author = form[1].value;
+        const pages = parseInt(form[2].value);
+        const readStatus = form[3].checked;
+        const newBook = new Book(title, author, pages, readStatus);
+        lib.AddBook(newBook);
+        DisplayBook(newBook);
+        document.getElementById("add-form").style.display = "none";
+        document.getElementById("add-icon").style.display = "";
+        form.reset();
     }
+}
+
+function DisplayAlertPanel() {
+    modal.style.display = "";
+}
+
+function HandleModalClick() {
+    modalContent.classList.add("scale-leave");
+}
+
+function HandleModalContentTransitionend() {
+    modal.style.display = "none";
+    modalContent.classList.remove("scale-leave");
 }

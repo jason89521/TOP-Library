@@ -43,15 +43,13 @@ function Library() {
         if (this.books.length > 0) return;
 
         let keys = Object.keys(localStorage);
-        let i = keys.length;
 
-        while (i--) {
+        for(let i = 0; i < keys.length; i++) {
             const bookJSON = JSON.parse(localStorage.getItem(keys[i]));
             const book = new Book(bookJSON.title, 
                 bookJSON.author, bookJSON.pages, 
                 bookJSON.readStatus, bookJSON.id);
             this.books.push(book);
-            console.log(i);
         }
     }
 
